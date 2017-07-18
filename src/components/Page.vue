@@ -6,7 +6,7 @@
     <div class="banner"
          :style="{ 'background-image': 'url(' + imgSrc + ')' }">
     </div>
-    <div style="width:100%; margin:0px;">
+    <div class="enter">
       Jan bekommt noch <b>10mio€</b><br>
       <a class="button is-primary is-large" @click="isDebtModalActive = true">Anschreiben</a>
       <a class="button is-primary is-outlined is-large">Begleichen</a>
@@ -42,32 +42,32 @@
  @import "./../_style.scss";
 
  .page {
-   height: 100vh;
    background-color: white;
-   font-size: 4vh;
+   font-size: $size-4;
+   height: 100%;
  }
 
  .button {
    margin-bottom: 5px;
  }
- 
- .enter {
-   width: 100%;
- }
 
  .page-title {
    width: 100%;
-   height: 17vh;
-   line-height: 17vh;
+   height: 17%;
    font-size: 12vh;
    font-weight: bold;
  }
 
  .banner {
-   width:100%;
-   height:40vh;
-   margin-bottom: 3vh;
+   width: 100%;
+   height: 45%;
    background-size: cover;
    background-position: center;
+ }
+
+ .enter {
+   width: 100%;
+   margin: 0px;
+   margin-top: 3vh;
  }
 </style>

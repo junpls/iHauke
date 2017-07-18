@@ -46,8 +46,8 @@
    background-color: $primary;
    text-align: center;
    vertical-align: middle;
-   font-size: 4vh;
-   font-weight: bold;
+   font-size: $size-3;
+   font-weight: $weight-bold;
    color: white;
  }
 
