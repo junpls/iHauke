@@ -1,23 +1,37 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+ export default {
+   name: 'app'
+ }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+ @import "./_style.scss";
+ 
+ @font-face {
+   font-family: GloriaHallelujah;
+   src: url('./assets/fonts/Gloria_Hallelujah/GloriaHallelujah.ttf');
+ }
+ 
+ @font-face {
+   font-family: PTMono;
+   src: url('./assets/fonts/PT_Mono/PTM55FT.ttf');
+ }
+ 
+ body {
+   font-family: "PTMono";
+   margin: 0;
+ }
+ 
+ #app {
+   font-family: 'PTMono', Helvetica, Arial, sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-align: center;
+ }
 </style>
