@@ -1,51 +1,30 @@
 <template>
   <div>
-    <div class="left"
-         :class="{ 'left-landscape': landscape, 'left-portrait': !landscape }"
-         :style="{ 'padding-top': scrollTop }">
-      <div :class="{ 'page-landscape': landscape, 'page-portrait': !landscape }">
-        <page></page>
-      </div>
-    </div>
-    <div :class="{ 'history-landscape': landscape }">
-      <history :debts="debts"></history>
-    </div>
+    <parallax-layout>
+      <page slot="head"></page>
+      <history-title slot="balloon"></history-title>
+      <history slot="body" :debts="debts"></history>
+    </parallax-layout>
   </div>
 </template>
 
 <script>
- import History from '@/components/History'
  import Page from '@/components/Page'
+ import HistoryTitle from '@/components/HistoryTitle'
+ import History from '@/components/History'
+ 
+ import ParallaxLayout from '@/components/lib/ParallaxLayout'
  
  export default {
    name: 'main',
    components: {
      History,
-     Page
-   },
-   methods: {
-     handleResize () {
-       this.fullWidth = document.documentElement.clientWidth
-       this.landscape = this.fullWidth > 1200
-     },
-     handleScroll: function (event) {
-       this.scrollTop = (window.scrollY / 2) + 'px'
-     }
-   },
-   mounted: function () {
-     this.handleResize()
-     window.addEventListener('resize', this.handleResize)
-     window.addEventListener('scroll', this.handleScroll)
-   },
-   beforeDestroy: function () {
-     window.removeEventListener('resize', this.handleResize)
-     window.removeEventListener('scroll', this.handleScroll)
+     Page,
+     ParallaxLayout,
+     HistoryTitle
    },
    data () {
      return {
-       scrollTop: 0,
-       fullWidth: document.documentElement.clientWidth,
-       landscape: true,
        debts: [{
          user: 0,
          gets: 100,
@@ -230,37 +209,4 @@
 </script>
 
 <style>
- .left {
-   background-color: #F8F8F8;
-   overflow: hidden;
- }
- 
- .left-landscape {
-   float: left;
-   width: calc(100% - 500px);
-   height: 100vh;
-   margin: 0px;
- }
-
- .left-portrait {
-   height: 91vh;
-   width: 100%;
- }
-
- .page-landscape {
-   width: 700px;
-   margin: auto;
-   height: 100%;
- }
-
- .page-portrait {
-   width: 100%;
-   height: 91vh;
- }
- 
- .history-landscape {
-   height: 100vh;
-   overflow-y: auto;
-   overflow-x: hidden;
- }
 </style>
