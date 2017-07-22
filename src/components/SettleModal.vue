@@ -9,12 +9,15 @@
           <b-input size="is-medium"
                    type="number"
                    step="0.01"
+                   :min="min"
+                   :max="balance/10"
                    placeholder="0,00"
                    v-model="money"
                    icon="euro_symbol"
+                   ref="input"
                    required expanded></b-input>
         </b-field>
-        <b-checkbox v-model="all">Alles komplett</b-checkbox>
+        <b-checkbox @change="all">Alles komplett</b-checkbox>
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$parent.close()">Zurück</button>
@@ -27,11 +30,23 @@
 <script>
  export default {
    name: 'debtModal',
+   props: ['balance'],
    data () {
      return {
        person: null,
        money: null,
-       reason: null
+       reason: null,
+       min: 0
+     }
+   },
+   methods: {
+     all (event) {
+       if (event) {
+         this.money = this.balance / 10
+         this.min = this.money
+       } else {
+         this.min = 0
+       }
      }
    }
  }

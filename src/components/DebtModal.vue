@@ -10,8 +10,8 @@
             v-model="person"
             required expanded
             placeholder="Person">
-            <option>Jan</option>
-            <option>Fred</option>
+            <option>{{ users[0] }}</option>
+            <option>{{ users[1] }}</option>
           </b-select>
         </b-field>
 
@@ -19,6 +19,7 @@
           <b-input size="is-medium"
                    type="number"
                    step="0.01"
+                   min="0"
                    placeholder="0,00"
                    v-model="money"
                    icon="euro_symbol"
@@ -44,6 +45,7 @@
 <script>
  export default {
    name: 'debtModal',
+   props: ['users'],
    data () {
      return {
        person: null,

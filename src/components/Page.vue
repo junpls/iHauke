@@ -7,7 +7,7 @@
          :style="{ 'background-image': 'url(' + imgSrc + ')' }">
     </div>
     <div class="enter">
-      Jan bekommt noch <b>10mio€</b><br>
+      <span v-html="getDebtsString()"></span><br>
       <a class="button is-primary is-large"
          @click="isDebtModalActive = true">Anschreiben</a>
       <a class="button is-primary is-outlined is-large"
@@ -16,12 +16,12 @@
     
     <b-modal :active.sync="isDebtModalActive"
              has-modal-card>
-      <debt-modal></debt-modal>
+      <debt-modal :users="state.users"></debt-modal>
     </b-modal>
     
     <b-modal :active.sync="isSettleModalActive"
              has-modal-card>
-      <settle-modal></settle-modal>
+      <settle-modal :balance="state.balance"></settle-modal>
     </b-modal>
   </div>
 </template>
@@ -30,6 +30,7 @@
  import DebtModal from '@/components/DebtModal'
  import SettleModal from '@/components/SettleModal'
  import Banners from '@/banners'
+ import * as util from '@/util'
  
  export default {
    name: 'page',
@@ -37,11 +38,24 @@
      DebtModal,
      SettleModal
    },
+   props: ['state'],
    data () {
      return {
        isDebtModalActive: false,
        isSettleModalActive: false,
        imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)]
+     }
+   },
+   methods: {
+     getBorrower () {
+       return this.state.balance > 0 ? this.state.users[0] : this.state.users[1]
+     },
+     getDebtsString () {
+       if (this.state.balance === 0) {
+         return 'Ihr seid quit.'
+       } else {
+         return `<b>${this.getBorrower()}</b> bekommt noch <b>${util.toMoney(Math.abs(this.state.balance))}</b>`
+       }
      }
    }
  }

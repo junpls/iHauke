@@ -3,16 +3,22 @@
     <div class="debt"
          v-bind:class="{ ldebt: debt.user===0, rdebt: debt.user===1 }"
          v-for="debt in debts">
-      <b>{{ debt.user === 0 ? 'Jan' : 'Fred' }}</b> bekommt {{ debt.gets/100 }}€ für {{ debt.reason }}
+      <span v-html="getDebtsString(debt.user, debt.gets, debt. reason)"></span>
     </div>
   </div>
 </template>
 
 <script>
+ import * as util from '@/util'
  
  export default {
    name: 'history',
-   props: ['debts']
+   props: ['users', 'debts'],
+   methods: {
+     getDebtsString (user, amount, reason) {
+       return `<b>${this.users[user]}</b> bekommt ${util.toMoney(amount)} für ${reason}`
+     }
+   }
  }
 
 </script>
