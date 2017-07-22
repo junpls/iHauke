@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="balloon-header balloon"
-         v-bind:class="{ 'balloon-header-top': scrolledTop }">
+         :class="{ 'balloon-header-top': scrolledTop }">
       {{ title }}
     </div>
     <div class="balloon" v-if="scrolledTop"></div>
@@ -30,7 +30,7 @@
    mounted: function () {
      window.addEventListener('scroll', this.handleScroll)
    },
-   destroyed: function () {
+   beforeDestroy: function () {
      window.removeEventListener('scroll', this.handleScroll)
    }
  }

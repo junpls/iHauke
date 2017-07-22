@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="left" v-bind:class="{ 'left-landscape': landscape, 'left-portrait': !landscape }">
-      <div v-bind:class="{ 'page-landscape': landscape, 'page-portrait': !landscape }">
+    <div class="left"
+         :class="{ 'left-landscape': landscape, 'left-portrait': !landscape }"
+         :style="{ 'padding-top': scrollTop }">
+      <div :class="{ 'page-landscape': landscape, 'page-portrait': !landscape }">
         <page></page>
       </div>
     </div>
-      <div v-bind:class="{ 'history-landscape': landscape }">
-        <history v-bind:debts="debts"></history>
-      </div>
+    <div :class="{ 'history-landscape': landscape }">
+      <history :debts="debts"></history>
+    </div>
   </div>
 </template>
 
@@ -25,18 +27,23 @@
      handleResize () {
        this.fullWidth = document.documentElement.clientWidth
        this.landscape = this.fullWidth > 1200
+     },
+     handleScroll: function (event) {
+       this.scrollTop = (window.scrollY / 2) + 'px'
      }
    },
    mounted: function () {
      this.handleResize()
      window.addEventListener('resize', this.handleResize)
-     window.scrollTo(0, 1)
+     window.addEventListener('scroll', this.handleScroll)
    },
    beforeDestroy: function () {
      window.removeEventListener('resize', this.handleResize)
+     window.removeEventListener('scroll', this.handleScroll)
    },
    data () {
      return {
+       scrollTop: 0,
        fullWidth: document.documentElement.clientWidth,
        landscape: true,
        debts: [{
@@ -225,6 +232,7 @@
 <style>
  .left {
    background-color: #F8F8F8;
+   overflow: hidden;
  }
  
  .left-landscape {
@@ -247,7 +255,7 @@
 
  .page-portrait {
    width: 100%;
-   height: 100%;
+   height: 91vh;
  }
  
  .history-landscape {

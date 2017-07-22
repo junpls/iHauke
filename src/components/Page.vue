@@ -8,29 +8,39 @@
     </div>
     <div class="enter">
       Jan bekommt noch <b>10mio€</b><br>
-      <a class="button is-primary is-large" @click="isDebtModalActive = true">Anschreiben</a>
-      <a class="button is-primary is-outlined is-large">Begleichen</a>
+      <a class="button is-primary is-large"
+         @click="isDebtModalActive = true">Anschreiben</a>
+      <a class="button is-primary is-outlined is-large"
+         @click="isSettleModalActive = true">Begleichen</a>
     </div>
     
     <b-modal :active.sync="isDebtModalActive"
              has-modal-card>
       <debt-modal></debt-modal>
     </b-modal>
+    
+    <b-modal :active.sync="isSettleModalActive"
+             has-modal-card>
+      <settle-modal></settle-modal>
+    </b-modal>
   </div>
 </template>
 
 <script>
  import DebtModal from '@/components/DebtModal'
+ import SettleModal from '@/components/SettleModal'
  import Banners from '@/banners'
  
  export default {
    name: 'page',
    components: {
-     DebtModal
+     DebtModal,
+     SettleModal
    },
    data () {
      return {
        isDebtModalActive: false,
+       isSettleModalActive: false,
        imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)]
      }
    }
