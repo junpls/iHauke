@@ -71,7 +71,6 @@
  .left {
    background-color: #F8F8F8;
    overflow: hidden;
-   height: calc(100vh - #{$title-height});
  }
  
  .left-landscape {
@@ -82,6 +81,7 @@
 
  .left-portrait {
    width: 100%;
+   height: calc(100vh - #{$title-height});
  }
 
  .page-landscape {

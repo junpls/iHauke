@@ -10,7 +10,7 @@
                    type="number"
                    step="0.01"
                    :min="min"
-                   :max="balance/10"
+                   :max="balance/100"
                    placeholder="0,00"
                    v-model="money"
                    icon="euro_symbol"
@@ -42,7 +42,7 @@
    methods: {
      all (event) {
        if (event) {
-         this.money = this.balance / 10
+         this.money = this.balance / 100
          this.min = this.money
        } else {
          this.min = 0

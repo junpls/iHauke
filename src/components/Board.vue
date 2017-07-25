@@ -2,7 +2,7 @@
   <div>
     <parallax-layout>
       <page :state="board" slot="head"></page>
-      <history-title slot="balloon"></history-title>
+      <generic-title title="History" slot="balloon"></generic-title>
       <history slot="body" :users="board.users" :debts="board.debts"></history>
     </parallax-layout>
   </div>
@@ -11,18 +11,18 @@
 <script>
  import SourceOfTruth from '@/sourceOfTruth'
  import Page from '@/components/Page'
- import HistoryTitle from '@/components/HistoryTitle'
+ import GenericTitle from '@/components/lib/GenericTitle'
  import History from '@/components/History'
  
  import ParallaxLayout from '@/components/lib/ParallaxLayout'
  
  export default {
-   name: 'main',
+   name: 'board',
    components: {
      History,
      Page,
      ParallaxLayout,
-     HistoryTitle
+     GenericTitle
    },
    data () {
      return {

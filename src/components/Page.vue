@@ -52,7 +52,7 @@
      },
      getDebtsString () {
        if (this.state.balance === 0) {
-         return 'Ihr seid quit.'
+         return 'Ihr seid quit'
        } else {
          return `<b>${this.getBorrower()}</b> bekommt noch <b>${util.toMoney(Math.abs(this.state.balance))}</b>`
        }
