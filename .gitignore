@@ -1,4 +1,19 @@
+# emacs
+*~
+*\#
+
+# node and tern
+*.orig
+*v8.log
+*.tern-project
+*.log
+*npm-debug.log*
+node_modules/
+*.tern-port
+
 build/
 node_modules/
 dist/
 static/banners/
+
+.esm-cache

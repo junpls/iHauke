@@ -1,0 +1,173 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: iHauke API
+schemes:
+  - http
+  - https
+host: jabens.tools
+basePath: /ihauke/v1
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: Username is the Board's id
+paths:
+  /boards:
+    post:
+      tags:
+        - boards
+      operationId: createBoard
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Board'
+          required: true
+      responses:
+        '201':
+          description: Returns
+          schema:
+            $ref: '#/definitions/Board'
+      security:
+        - basicAuth: []
+  '/boards/{id}':
+    get:
+      tags:
+        - boards
+      operationId: fetchBoard
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+      responses:
+        '201':
+          description: Returns Board
+          schema:
+            $ref: '#/definitions/Board'
+      security:
+        - basicAuth: []
+    delete:
+      tags:
+        - boards
+      operationId: deleteBoard
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Ok
+      security:
+        - basicAuth: []
+  '/boards/{id}/debts':
+    get:
+      tags:
+        - boards
+      operationId: fetchDebts
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+        - $ref: '#/parameters/direction'
+        - $ref: '#/parameters/count'
+        - $ref: '#/parameters/offset'
+      responses:
+        '200':
+          description: Returns Debt entries with paging
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
+    post:
+      tags:
+        - boards
+      operationId: createDebt
+      description: |
+        Use negative **gets** values and omit **reason** for settling debts. 
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Debt'
+          required: true
+      responses:
+        '201':
+          description: Returns
+          schema:
+            $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
+definitions:
+  Board:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      users:
+        type: array
+        items:
+          type: string
+      balance:
+        type: integer
+        format: int32
+      debts:
+        type: array
+        items:
+          $ref: '#/definitions/Debt'
+  Debt:
+    type: object
+    required:
+      - user
+      - gets
+      - timestamp
+    properties:
+      user:
+        type: integer
+        format: int32
+      gets:
+        type: integer
+        format: int32
+      reason:
+        type: string
+      timestamp:
+        type: string
+        format: dateTime
+parameters:
+  direction:
+    in: query
+    name: direction
+    description: Query in ascending or descending order
+    type: string
+    default: desc
+    enum:
+      - asc
+      - desc
+  count:
+    in: query
+    name: count
+    description: Maximum number of values returned
+    type: integer
+    format: int32
+    default: 30
+  offset:
+    in: query
+    name: offset
+    description: Offset for pagination
+    type: integer
+    format: int32
+    default: 0

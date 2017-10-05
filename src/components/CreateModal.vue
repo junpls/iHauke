@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form @submit.prevent="ack">
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Neues Board</p>
@@ -9,12 +9,12 @@
         <b-field grouped>
           <b-input size="is-normal"
                    type="text"
-                   placeholder="Florian"
+                   placeholder="z.B. Jörg"
                    required expanded></b-input>
           und&nbsp;
           <b-input size="is-normal"
                    type="text"
-                   placeholder="Jörg"
+                   placeholder="Thorben"
                    required expanded></b-input>
         </b-field>
       </section>
@@ -32,6 +32,12 @@
    data () {
      return {
        users: ['a', 'b']
+     }
+   },
+   methods: {
+     ack () {
+       this.$emit('ack')
+       this.$parent.close()
      }
    }
  }

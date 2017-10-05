@@ -4,7 +4,7 @@
       iHauke
     </div>
     <div class="description">
-      Semiprofessionelles Finanzverwaltungssystem für&nbsp;Zweier&nbsp;WGs
+      Ein semiprofessionelles Finanzverwaltungssystem für&nbsp;Zweier&nbsp;WGs
     </div>
     <div class="banner"
          :style="{ 'background-image': 'url(' + imgSrc + ')' }">
@@ -17,7 +17,13 @@
     </div>
     <b-modal :active.sync="isCreateModalActive"
              has-modal-card>
-      <create-modal></create-modal>
+      <create-modal
+        @ack="isPasswordModalActive = true"
+      ></create-modal>
+    </b-modal>
+    <b-modal :active.sync="isPasswordModalActive"
+             has-modal-card>
+      <password-modal></password-modal>
     </b-modal>
   </div>
 </template>
@@ -26,22 +32,28 @@
  import Banners from '@/banners'
  import Plus from '@/components/lib/Plus'
  import CreateModal from '@/components/CreateModal'
+ import PasswordModal from '@/components/PasswordModal'
  // import * as util from '@/util'
 
  export default {
    name: 'landing-page',
    components: {
      Plus,
-     CreateModal
+     CreateModal,
+     PasswordModal
    },
    props: ['state'],
    data () {
      return {
        imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
-       isCreateModalActive: false
+       isCreateModalActive: false,
+       isPasswordModalActive: false
      }
    },
    methods: {
+     lol () {
+       console.log('lol')
+     }
    }
  }
 

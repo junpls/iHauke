@@ -1,0 +1,222 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: iHauke API
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths 
+basePath: /v1/
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: Username is the Board's id
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /boards:
+    post:
+      tags:
+        - boards
+      operationId: createBoard
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Board'
+          required: true
+      responses:
+        '201':
+          description: Returns
+          schema:
+            $ref: '#/definitions/Board'
+      security:
+        - basicAuth: []
+  '/boards/{id}':
+    get:
+      tags:
+        - boards
+      operationId: fetchBoard
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+      responses:
+        '201':
+          description: Returns Board
+          schema:
+            $ref: '#/definitions/Board'
+      security:
+        - basicAuth: []
+    delete:
+      tags:
+        - boards
+      operationId: deleteBoard
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Ok
+      security:
+        - basicAuth: []
+  '/boards/{id}/debts':
+    get:
+      tags:
+        - boards
+      operationId: fetchDebts
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+        - $ref: '#/parameters/direction'
+        - $ref: '#/parameters/count'
+        - $ref: '#/parameters/offset'
+      responses:
+        '200':
+          description: Returns Debt entries with paging
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
+    post:
+      tags:
+        - boards
+      operationId: createDebt
+      description: |
+        Use negative **gets** values and omit **reason** for settling debts. 
+      parameters:
+        - in: path
+          name: id
+          description: Board ID
+          type: string
+          required: true
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Debt'
+          required: true
+      responses:
+        '201':
+          description: Returns
+          schema:
+            $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
+# complex objects have schema definitions
+definitions:
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Board:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      users:
+        type: array
+        items:
+          type: string
+      balance:
+        type: integer
+        format: int32
+      debts:
+        type: array
+        items:
+          $ref: '#/definitions/Debt'
+  Debt:
+    type: object
+    required:
+      - user
+      - gets
+      - timestamp
+    properties:
+      user:
+        type: integer
+        format: int32
+      gets:
+        type: integer
+        format: int32
+      reason:
+        type: string
+      timestamp:
+        type: string
+        format: dateTime
+parameters:
+  direction:
+    in: query
+    name: direction
+    description: Query in ascending or descending order
+    type: string
+    default: desc
+    enum:
+      - asc
+      - desc
+  count:
+    in: query
+    name: count
+    description: Maximum number of values returned
+    type: integer
+    format: int32
+    default: 30
+  offset:
+    in: query
+    name: offset
+    description: Offset for pagination
+    type: integer
+    format: int32
+    default: 0
