@@ -38,7 +38,7 @@ export function hexFrom(num) {
 }
 
 export function hexTo(str) {
-  return parseInt(hexString, 16)
+  return parseInt(str, 16)
 }
 
 export const HTTP_CODES = {

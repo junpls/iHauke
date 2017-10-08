@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form @submit.prevent="send">
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Passwort</p>
@@ -9,13 +9,17 @@
         <b-input size="is-normal"
                  type="password"
                  ref="pw"
-                 placeholder="alligator3"
-                 required expanded password-reveal></b-input>
+                 v-model="password"
+                 placeholder="z.B. alligator3"
+                 :disabled="disabled"
+                 expanded password-reveal></b-input>
         </b-field>
       </section>
-      <footer class="modal-card-foot">
-        <button class="button" type="button" @click="$parent.close()">Zurück</button>
-        <button class="button is-primary">Fertig</button>
+      <footer class="modal-card-foot center-outer">
+        <div class="center-inner">
+          <button class="button" type="button" @click="$parent.close()" :disabled="disabled">Zurück</button>
+          <button class="button is-primary" :disabled="disabled">Fertig</button>
+        </div>
       </footer>
     </div>
   </form>
@@ -24,13 +28,23 @@
 <script>
  export default {
    name: 'debtModal',
+   props: ['submit'],
    data () {
      return {
-       users: ['a', 'b']
+       password: '',
+       disabled: false
      }
    },
    mounted () {
      this.$refs.pw.focus()
+   },
+   methods: {
+     send () {
+       this.disabled = true
+       this.submit(this.password).then(() => {
+         this.$parent.close()
+       })
+     }
    }
  }
 </script>

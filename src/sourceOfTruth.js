@@ -1,4 +1,6 @@
 export default {
+  active: 'janfred',
+  landscape: true,
   boards: {
     'janfred': {
       users: ['Jan', 'Fred'],

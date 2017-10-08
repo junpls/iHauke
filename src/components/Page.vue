@@ -7,21 +7,26 @@
          :style="{ 'background-image': 'url(' + imgSrc + ')' }">
     </div>
     <div class="enter">
-      <span v-html="getDebtsString()"></span><br>
+      <span :class="{ 'blink-animation': jumping }"v-html="getDebtsString()"></span><br>
       <a class="button is-primary is-large"
          @click="isDebtModalActive = true">Anschreiben</a>
-      <a class="button is-primary is-outlined is-large"
+      <a v-if="state.balance !== 0"
+         class="button is-primary is-outlined is-large"
          @click="isSettleModalActive = true">Begleichen</a>
     </div>
     
     <b-modal :active.sync="isDebtModalActive"
              has-modal-card>
-      <debt-modal :users="state.users"></debt-modal>
+      <debt-modal :users="state.users.map(this.capitalize)"
+                  :submit="submitDebt">
+      </debt-modal>
     </b-modal>
     
     <b-modal :active.sync="isSettleModalActive"
              has-modal-card>
-      <settle-modal :balance="state.balance"></settle-modal>
+      <settle-modal :balance="state.balance"
+                    :submit="submitSettle">
+      </settle-modal>
     </b-modal>
   </div>
 </template>
@@ -30,6 +35,7 @@
  import DebtModal from '@/components/DebtModal'
  import SettleModal from '@/components/SettleModal'
  import Banners from '@/banners'
+ import * as Api from '@/api'
  import * as util from '@/util'
  
  export default {
@@ -43,12 +49,13 @@
      return {
        isDebtModalActive: false,
        isSettleModalActive: false,
-       imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)]
+       imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
+       jumping: false
      }
    },
    methods: {
      getBorrower () {
-       return this.state.balance > 0 ? this.state.users[0] : this.state.users[1]
+       return util.capitalize(this.state.balance > 0 ? this.state.users[0] : this.state.users[1])
      },
      getDebtsString () {
        if (this.state.balance === 0) {
@@ -56,6 +63,25 @@
        } else {
          return `<b>${this.getBorrower()}</b> bekommt noch <b>${util.toMoney(Math.abs(this.state.balance))}</b>`
        }
+     },
+     capitalize (str) {
+       return util.capitalize(str)
+     },
+     async submitDebt (person, money, reason) {
+       await Api.createDebt(this.state.id, person, money, reason)
+       this.jumping = true
+       setTimeout(() => {
+         this.jumping = false
+       }, 3000)
+       this.$emit('updateHistory')
+     },
+     async submitSettle (person, money) {
+       await Api.createDebt(this.state.id, person, money, '')
+       this.jumping = true
+       setTimeout(() => {
+         this.jumping = false
+       }, 3000)
+       this.$emit('updateHistory')
      }
    }
  }
@@ -93,5 +119,18 @@
    width: 100%;
    margin: 0px;
    margin-top: 3vh;
+ }
+
+ @keyframes blink {
+   0%    {opacity: 0;}
+   25%   {opacity: 1;}
+   60%   {opacity: 1;}
+   80%   {opacity: .5;}
+   100%  {opacity: 1;}
+ }
+
+ .blink-animation {
+   animation-name: blink;
+   animation-duration: 1s;
  }
 </style>

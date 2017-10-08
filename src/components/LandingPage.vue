@@ -12,18 +12,16 @@
     <div style="height: 20%; margin-top: -20px" class="vcenter">
       <b>Neues Board -> </b>
       <span @click="isCreateModalActive = true">
-        <plus  size="20vh"></plus>
+        <plus size="20vh"></plus>
       </span>
     </div>
     <b-modal :active.sync="isCreateModalActive"
              has-modal-card>
-      <create-modal
-        @ack="isPasswordModalActive = true"
-      ></create-modal>
+      <create-modal :submit="namesEntered"></create-modal>
     </b-modal>
     <b-modal :active.sync="isPasswordModalActive"
              has-modal-card>
-      <password-modal></password-modal>
+      <password-modal :submit="passwordEntered"></password-modal>
     </b-modal>
   </div>
 </template>
@@ -33,6 +31,7 @@
  import Plus from '@/components/lib/Plus'
  import CreateModal from '@/components/CreateModal'
  import PasswordModal from '@/components/PasswordModal'
+ import * as Api from '@/api'
  // import * as util from '@/util'
 
  export default {
@@ -47,12 +46,23 @@
      return {
        imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
        isCreateModalActive: false,
-       isPasswordModalActive: false
+       isPasswordModalActive: false,
+       create: {
+         users: [],
+         pw: ''
+       }
      }
    },
    methods: {
-     lol () {
-       console.log('lol')
+     async namesEntered (users) {
+       this.create.users = users
+       this.isPasswordModalActive = true
+     },
+     async passwordEntered (pw) {
+       this.create.pw = pw
+       let created = await Api.createBoard(this.create.users, this.create.password)
+       console.log(created)
+       this.$router.push({name: 'board', params: {board: created.id}})
      }
    }
  }

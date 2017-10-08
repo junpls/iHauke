@@ -34,4 +34,19 @@
    -moz-osx-font-smoothing: grayscale;
    text-align: center;
  }
+
+ .modal-card {
+   width: auto;
+ }
+
+ .center-outer {
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 100%;
+ }
+
+ .center-inner {
+   margin: 0 auto;
+ }
 </style>

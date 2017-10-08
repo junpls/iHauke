@@ -9,11 +9,11 @@ export default new Router({
   mode: 'history',
   routes: [{
     path: '/',
-    name: 'Landing',
+    name: 'landing',
     component: Landing
   }, {
-    path: '/:board',
-    name: 'Board',
+    path: '/b/:board',
+    name: 'board',
     component: Board
   }]
 })
