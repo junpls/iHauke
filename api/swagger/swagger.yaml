@@ -3,9 +3,9 @@ info:
   version: "0.0.1"
   title: iHauke API
 # during dev, should point to your local machine
-host: localhost:8080
+host: localhost:8081
 # basePath prefixes all resource paths 
-basePath: /v1/
+basePath: /v1
 securityDefinitions:
   basicAuth:
     type: basic
@@ -22,8 +22,8 @@ consumes:
 produces:
   - application/json
 paths:
+  x-swagger-router-controller: hello_world
   /hello:
-    # binds a127 app logic to a route
     x-swagger-router-controller: hello_world
     get:
       description: Returns 'Hello' to the caller
@@ -49,6 +49,7 @@ paths:
   /swagger:
     x-swagger-pipe: swagger_raw
   /boards:
+    x-swagger-router-controller: hello_world
     post:
       tags:
         - boards
@@ -64,9 +65,8 @@ paths:
           description: Returns
           schema:
             $ref: '#/definitions/Board'
-      security:
-        - basicAuth: []
   '/boards/{id}':
+    x-swagger-router-controller: hello_world
     get:
       tags:
         - boards
@@ -82,9 +82,8 @@ paths:
           description: Returns Board
           schema:
             $ref: '#/definitions/Board'
-      security:
-        - basicAuth: []
     delete:
+      x-swagger-router-controller: hello_world
       tags:
         - boards
       operationId: deleteBoard
@@ -97,9 +96,8 @@ paths:
       responses:
         '200':
           description: Ok
-      security:
-        - basicAuth: []
   '/boards/{id}/debts':
+    x-swagger-router-controller: hello_world
     get:
       tags:
         - boards
@@ -120,14 +118,13 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Debt'
-      security:
-        - basicAuth: []
     post:
       tags:
         - boards
       operationId: createDebt
       description: |
-        Use negative **gets** values and omit **reason** for settling debts. 
+        Use negative **gets** values and omit **reason** for settling debts.
+        You have to specify **timestamp** with a valid date for validation reasons, but it will be overwritten by the API.
       parameters:
         - in: path
           name: id
@@ -144,8 +141,6 @@ paths:
           description: Returns
           schema:
             $ref: '#/definitions/Debt'
-      security:
-        - basicAuth: []
 # complex objects have schema definitions
 definitions:
   HelloWorldResponse:
@@ -171,6 +166,8 @@ definitions:
         type: array
         items:
           type: string
+          minimum: 2
+          maximum: 2
       balance:
         type: integer
         format: int32
@@ -188,6 +185,8 @@ definitions:
       user:
         type: integer
         format: int32
+        minimum: 0
+        maximum: 1
       gets:
         type: integer
         format: int32

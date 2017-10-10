@@ -14,6 +14,7 @@
  import Page from '@/components/Page'
  import GenericTitle from '@/components/lib/GenericTitle'
  import History from '@/components/History'
+ import Vue from 'vue'
  
  import ParallaxLayout from '@/components/lib/ParallaxLayout'
  
@@ -30,6 +31,14 @@
        state: SourceOfTruth,
        board: SourceOfTruth.boards[this.$route.params.board]
      }
+   },
+   beforeCreate () {
+     Vue.set(SourceOfTruth.boards, this.$route.params.board, {
+       id: this.$route.params.board,
+       users: ['...', '...'],
+       balance: 1,
+       debts: []
+     })
    },
    created () {
      Api.fetchBoard(this.$route.params.board)

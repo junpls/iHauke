@@ -7,7 +7,12 @@
     </div>
     <infinite-loading @infinite="infiniteHandler"
                       spinner="waveDots"
-                      :force-use-infinite-wrapper="!landscape"></infinite-loading>
+                      :force-use-infinite-wrapper="!landscape">
+      <span slot="no-results">
+        *zirp zirp*
+      </span>
+      <span slot="no-more"></span>
+    </infinite-loading>
   </div>
 </template>
 
@@ -25,7 +30,8 @@
    },
    data () {
      return {
-       landscape: false
+       landscape: false,
+       empty: true
      }
    },
    props: ['users', 'debts'],
@@ -41,9 +47,13 @@
      async infiniteHandler (state) {
        let board = this.$route.params.board
        let fetched = await Api.fetchDebts(board, 'desc', distance, this.debts.length)
+
        if (fetched.length >= distance) {
          state.loaded()
        } else {
+         if (fetched.length > 0) {
+           state.loaded()
+         }
          state.complete()
        }
      }

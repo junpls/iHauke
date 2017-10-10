@@ -15,5 +15,6 @@ build/
 node_modules/
 dist/
 static/banners/
+api/database/ihauke.db
 
 .esm-cache

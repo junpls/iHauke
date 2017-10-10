@@ -11,6 +11,7 @@
   It is a good idea to list the modules that your application depends on in the package.json in the project root
  */
 var util = require('util');
+var db = require('./../helpers/sqlite');
 
 /*
  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
@@ -25,7 +26,11 @@ var util = require('util');
   we specify that in the exports of this module that 'hello' maps to the function named 'hello'
  */
 module.exports = {
-  hello: hello
+  hello: hello,
+  fetchBoard: fetchBoard,
+  fetchDebts: fetchDebts,
+  createBoard: createBoard,
+  createDebt: createDebt
 };
 
 /*
@@ -36,8 +41,42 @@ module.exports = {
  */
 function hello(req, res) {
   // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-  var name = req.swagger.params.name.value || 'stranger';
-  var hello = util.format('Hello, %s!', name);
+  let name = req.swagger.params.name.value || 'stranger';
+  let hello = util.format('Hello, %s!', name);
   // this sends back a JSON response which is a single string
   res.json(hello);
+}
+
+function fetchBoard(req, res, next) {
+  let id = req.swagger.params.id.value;
+
+  db.fetchBoard(id)
+    .then(r => res.json(r)).catch(e => next(e));
+}
+
+function fetchDebts(req, res, next) {
+  let id = req.swagger.params.id.value;
+  let direction = req.swagger.params.direction.value;
+  let count = req.swagger.params.count.value;
+  let offset = req.swagger.params.offset.value;
+
+  db.fetchDebts(id, direction, count, offset)
+    .then(r => res.json(r)).catch(e => next(e));
+}
+
+function createBoard(req, res, next) {
+  let users = req.swagger.params.body.value.users;
+
+  db.createBoard(users, 'bla')
+    .then(r => res.json(r)).catch(e => next(e));
+}
+
+function createDebt(req, res, next) {
+  let id = req.swagger.params.id.value;
+  let user = req.swagger.params.body.value.user;
+  let gets = req.swagger.params.body.value.gets;
+  let reason = req.swagger.params.body.value.reason;
+
+  db.createDebt(id, user, gets, reason)
+    .then(r => res.json(r)).catch(e => next(e));
 }

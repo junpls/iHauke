@@ -34,7 +34,7 @@
           <b-input size="is-medium"
                    placeholder="z.B. Kackpappe"
                    v-model="reason"
-                   expanded
+                   required expanded
                    :disabled="disabled">
           </b-input>
         </b-field>
