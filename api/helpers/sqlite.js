@@ -1,5 +1,6 @@
 const util = require('./util');
 const db = require('sqlite');
+const bcrypt = require('bcrypt');
 
 db.open(__dirname + './../database/ihauke.db', { cached: true }).then(() => {
   util.info('Connected to DB');
@@ -24,9 +25,14 @@ ON b.id=u.board
 WHERE b.id=?`, [hex, hex]);
 
   if (!res || res.id === null) {
-    throw new Error('board not found');
+    throw new Error({
+      message: 'board not found',
+      statusCode: 404
+    });
   } else if (res.users === null) {
-    throw new Error('no users in this board');
+    throw new Error({
+      message: 'no users in this board'
+    });
   }
 
   return {
@@ -50,9 +56,10 @@ ORDER BY time DESC LIMIT ? OFFSET ?`, [util.hexFrom(id), count, offset]);
 async function createBoard(users, password) {
   let id = util.uuid();
   let creation = new Date().getTime();
+  let hash = await _hash(password);
   await db.run('BEGIN TRANSACTION');
   await db.run('INSERT INTO Board (id, password, creation) VALUES (?,?,?)',
-    [id, 'alligator3', creation]);
+    [id, hash, creation]);
   await db.run('INSERT INTO User (name, board, num) VALUES (?,?,0),(?,?,1)',
     [users[0], id, users[1], id]);
   await db.run('COMMIT');
@@ -78,9 +85,29 @@ async function createDebt(id, user, gets, reason) {
   };
 }
 
+async function _authorize(id, password) {
+  let res = await db.get(
+    `SELECT password FROM Board WHERE id=?`, [util.hexFrom(id)]);
+  if (!await _compare(password, res.password)) {
+    throw new Error({
+      message: 'Wrong credentials',
+      statusCode: 403
+    });
+  }
+}
+
+async function _hash(pw) {
+  return await bcrypt.hash(pw, 10);
+}
+
+async function _compare(pw, hash) {
+  return await bcrypt.compare(pw, hash);
+}
+
 module.exports = {
   fetchBoard: fetchBoard,
   fetchDebts: fetchDebts,
   createDebt: createDebt,
-  createBoard: createBoard
+  createBoard: createBoard,
+  _authorize: _authorize
 };

@@ -9,8 +9,8 @@ basePath: /v1
 securityDefinitions:
   basicAuth:
     type: basic
-    description: Username is the Board's id
-# 
+    description: Username is board's ID
+    # 
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -82,20 +82,8 @@ paths:
           description: Returns Board
           schema:
             $ref: '#/definitions/Board'
-    delete:
-      x-swagger-router-controller: hello_world
-      tags:
-        - boards
-      operationId: deleteBoard
-      parameters:
-        - in: path
-          name: id
-          description: Board ID
-          type: string
-          required: true
-      responses:
-        '200':
-          description: Ok
+      security:
+        - basicAuth: []
   '/boards/{id}/debts':
     x-swagger-router-controller: hello_world
     get:
@@ -118,6 +106,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
     post:
       tags:
         - boards
@@ -141,6 +131,8 @@ paths:
           description: Returns
           schema:
             $ref: '#/definitions/Debt'
+      security:
+        - basicAuth: []
 # complex objects have schema definitions
 definitions:
   HelloWorldResponse:

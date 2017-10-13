@@ -60,8 +60,7 @@
      },
      async passwordEntered (pw) {
        this.create.pw = pw
-       let created = await Api.createBoard(this.create.users, this.create.password)
-       console.log(created)
+       let created = await Api.createBoard(this.create.users, this.create.pw)
        this.$router.push({name: 'board', params: {board: created.id}})
      }
    }

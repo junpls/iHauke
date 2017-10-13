@@ -15,6 +15,14 @@ function convertDates (debts, name) {
   })
 }
 
+export function setAuth (board, password) {
+  SourceOfTruth.boards[board].auth = {
+    username: board,
+    password: password
+  }
+  window.localStorage.setItem('pw_' + board, password)
+}
+
 export async function createBoard (users, password) {
   let response = await axios.request({
     url: '/boards',
@@ -22,27 +30,29 @@ export async function createBoard (users, password) {
     data: {
       id: 'new',
       users: users
+    },
+    auth: {
+      username: '',
+      password: password
     }
   })
   if (response.status !== 200) {
     return {}
   }
   let board = response.data
-
   Vue.set(SourceOfTruth.boards, board.id, board)
+  setAuth(board.id, password)
 
   return board
 }
 
 export async function fetchBoard (id) {
-  let response = await axios.get(`/boards/${id}`)
-  if (response.status === 404) {
-    console.log('board not found')
-  }
-  if (response.status !== 200) {
-    console.error(response)
-    return {}
-  }
+  let response = await axios.request({
+    url: `/boards/${id}`,
+    method: 'get',
+    auth: SourceOfTruth.boards[id].auth
+  })
+
   let board = response.data
   convertDates(board.debts, 'timestamp')
 
@@ -65,7 +75,11 @@ export async function fetchDebts (id, dir, count, offset) {
     count: count,
     offset: offset
   }
-  let response = await axios.get(`/boards/${id}/debts?${querystring.stringify(params)}`)
+  let response = await axios.request({
+    url: `/boards/${id}/debts?${querystring.stringify(params)}`,
+    method: 'get',
+    auth: SourceOfTruth.boards[id].auth
+  })
   if (response.status === 404) {
     console.log('board not found')
   }
@@ -76,9 +90,9 @@ export async function fetchDebts (id, dir, count, offset) {
   convertDates(debts, 'timestamp')
 
   debts.forEach(d => {
-    // if (SourceOfTruth.boards[id].debts.every(e => e.timestamp !== d.timestamp)) {
-    SourceOfTruth.boards[id].debts.push(d)
-   // }
+    if (SourceOfTruth.boards[id].debts.every(e => e.timestamp !== d.timestamp)) {
+      SourceOfTruth.boards[id].debts.push(d)
+    }
   })
 
   console.log(debts)
@@ -95,7 +109,8 @@ export async function createDebt (id, user, gets, reason) {
       gets: gets,
       reason: reason,
       timestamp: new Date()
-    }
+    },
+    auth: SourceOfTruth.boards[id].auth
   })
   if (response.status !== 200) {
     return {}

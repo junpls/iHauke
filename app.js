@@ -4,13 +4,15 @@ var SwaggerExpress = require('swagger-express-mw');
 var express = require('express');
 var app = express();
 var path = require('path');
+var security = require('./api/helpers/security');
 module.exports = app; // for testing
 
 // Serve static files
 app.use(express.static('dist'));
 
 var config = {
-  appRoot: __dirname // required config
+  appRoot: __dirname, // required config
+  swaggerSecurityHandlers: security
 };
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {

@@ -10,8 +10,9 @@
 
   It is a good idea to list the modules that your application depends on in the package.json in the project root
  */
-var util = require('util');
-var db = require('./../helpers/sqlite');
+const util = require('util');
+const db = require('./../helpers/sqlite');
+const auth = require('basic-auth');
 
 /*
  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
@@ -66,8 +67,17 @@ function fetchDebts(req, res, next) {
 
 function createBoard(req, res, next) {
   let users = req.swagger.params.body.value.users;
+  let credentials = auth(req);
 
-  db.createBoard(users, 'bla')
+  if (users[0] === users[1]) {
+    next({
+      message: 'users must have different names',
+      statusCode: 400
+    });
+    return;
+  }
+
+  db.createBoard(users, credentials.pass)
     .then(r => res.json(r)).catch(e => next(e));
 }
 
