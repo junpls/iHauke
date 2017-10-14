@@ -1,4 +1,3 @@
-// import * as util from './util'
 import SourceOfTruth from '@/sourceOfTruth'
 import Vue from 'vue'
 import Axios from 'axios'

@@ -41,6 +41,11 @@
        this.disabled = true
        this.submit(this.password).then(() => {
          this.$parent.close()
+       }).catch(() => {
+         setTimeout(() => {
+           this.disabled = false
+           this.password = ''
+         }, 2000)
        })
      }
    }

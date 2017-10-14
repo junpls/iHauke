@@ -7,9 +7,9 @@
          :style="{ 'background-image': 'url(' + imgSrc + ')' }">
     </div>
     <div class="enter">
-      <span :class="{ 'blink-animation': jumping }"v-html="getDebtsString()"></span><br>
-      <a class="button is-primary is-large"
-         @click="isDebtModalActive = true">Anschreiben</a>
+      <span :class="{ 'blink-animation': jumping }" v-html="getDebtsString()"></span><br>
+        <a class="button is-primary is-large"
+           @click="isDebtModalActive = true; tooltipsActive = false">Anschreiben</a>
       <a v-if="state.balance !== 0"
          class="button is-primary is-outlined is-large"
          @click="isSettleModalActive = true">Begleichen</a>
@@ -51,6 +51,12 @@
        isSettleModalActive: false,
        imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
        jumping: false
+     }
+   },
+   computed: {
+     welcomeLabel () {
+       return `Willkommen ${this.state.users[0]} und ${this.state.users[1]}!
+Hier könnt ihr ab jetzt eure Schulden verwalten.`
      }
    },
    methods: {

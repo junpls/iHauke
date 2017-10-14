@@ -71,6 +71,7 @@
              (e.response.status === 403 || e.response.status === 401)) {
            this.isAuthModalActive = true
          }
+         throw e
        }
      },
      async authSubmit (pw) {
