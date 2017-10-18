@@ -2,13 +2,6 @@ const util = require('./util');
 const db = require('sqlite');
 const bcrypt = require('bcrypt');
 
-db.open(__dirname + './../database/ihauke.db', { cached: true }).then(() => {
-  util.info('Connected to DB');
-}).catch((err) => {
-  util.error('Could not connect to DB');
-  util.error(err);
-});
-
 function convertDebts(debt) {
   debt.timestamp = new Date(debt.time);
   delete debt.time;

@@ -1,10 +1,13 @@
 'use strict';
 
-var SwaggerExpress = require('swagger-express-mw');
-var express = require('express');
-var app = express();
-var path = require('path');
-var security = require('./api/helpers/security');
+const SwaggerExpress = require('swagger-express-mw');
+const express = require('express');
+const app = express();
+const path = require('path');
+const security = require('./api/helpers/security');
+const util = require('./api/helpers/util');
+const db = require('sqlite');
+
 module.exports = app; // for testing
 
 // Serve static files
@@ -27,9 +30,18 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   });
 
   var port = process.env.PORT || 8080;
-  app.listen(port);
 
-  if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
-  }
+  db.open('./api/database/ihauke.db', { cached: true })
+    .then(() => {
+      util.info('Connected to DB');
+      return db.migrate({ force: 'last' });
+    })
+    .then(() => {
+      util.info('Ready');
+      app.listen(port);
+    })
+    .catch((err) => {
+      util.error('Could not connect to DB');
+      util.error(err);
+    });
 });

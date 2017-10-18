@@ -1,4 +1,4 @@
-BEGIN TRANSACTION;
+-- Up
 CREATE TABLE `User` (
 	`name`	TEXT NOT NULL,
 	`board`	INTEGER NOT NULL,
@@ -21,4 +21,9 @@ CREATE TABLE "Board" (
 	`creation`	INTEGER NOT NULL,
 	PRIMARY KEY(id)
 );
-COMMIT;
+
+-- Down
+DROP TABLE `User`;
+DROP TABLE `Debt`;
+DROP TABLE "Board";
+
