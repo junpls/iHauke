@@ -1,0 +1,25 @@
+{
+  "name": "iHaukeBackend",
+  "version": "1.0.0",
+  "description": "Backend für WebApp für Schulden in 2er WGs",
+  "author": "Jan Benscheid <jan.benscheid@gmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development node app.js"
+  },
+  "dependencies": {
+    "@std/esm": "^0.11.3",
+    "basic-auth": "^2.0.0",
+    "bcrypt": "^1.0.3",
+    "express": "^4.16.2",
+    "express-winston": "^2.4.0",
+    "sqlite": "^2.8.0",
+    "swagger-express-mw": "^0.1.0",
+    "winston": "^2.4.0"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
+}
