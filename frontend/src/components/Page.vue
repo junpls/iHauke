@@ -64,6 +64,7 @@
  import SettleModal from '@/components/SettleModal'
  import Banners from '@/banners'
  import * as Api from '@/api'
+ import * as conf from '@/config'
  import * as util from '@/util'
 
  // Some browsers take time to focus an input
@@ -80,7 +81,7 @@
      return {
        isDebtModalActive: false,
        isSettleModalActive: false,
-       imgSrc: '/static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
+       imgSrc: conf.location + 'static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
        jumping: false,
        folded: true
      }
