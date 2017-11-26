@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Board from '@/components/Board'
 import Landing from '@/components/Landing'
-import * as conf from '@/config'
+import config from '@/config'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: conf.location,
+  base: config.location,
   routes: [{
     path: '/',
     name: 'landing',

@@ -31,8 +31,8 @@
  import Plus from '@/components/lib/Plus'
  import CreateModal from '@/components/CreateModal'
  import PasswordModal from '@/components/PasswordModal'
+ import config from '@/config'
  import * as Api from '@/api'
- import * as conf from '@/config'
  // import * as util from '@/util'
 
  export default {
@@ -45,7 +45,7 @@
    props: ['state'],
    data () {
      return {
-       imgSrc: conf.location + 'static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
+       imgSrc: config.location + 'static/banners/' + Banners[Math.floor(Math.random() * Banners.length)],
        isCreateModalActive: false,
        isPasswordModalActive: false,
        create: {
