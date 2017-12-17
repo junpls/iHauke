@@ -6,6 +6,25 @@ webpackJsonp([0],[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+const dev = "production" !== 'production';
+
+const location = dev ? '/' : '/ihauke/';
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  dev: dev,
+  location: location,
+  api: {
+    scheme: window.location.protocol.slice(0, -1),
+    host: dev ? window.location.host.slice(0, -1) + '1' : window.location.host,
+    basePath: location + 'v1'
+  }
+});
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = setAuth;
 /* harmony export (immutable) */ __webpack_exports__["e"] = createBoard;
 /* harmony export (immutable) */ __webpack_exports__["a"] = fetchBoard;
@@ -16,7 +35,7 @@ webpackJsonp([0],[
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_querystring__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_querystring___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_querystring__);
 
@@ -149,25 +168,6 @@ async function createDebt(id, user, gets, reason) {
 }
 
 /***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const dev = "production" !== 'production';
-
-const location = dev ? '/' : '/ihauke/';
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  dev: dev,
-  location: location,
-  api: {
-    scheme: window.location.protocol.slice(0, -1),
-    host: dev ? window.location.host.slice(0, -1) + '1' : window.location.host,
-    basePath: location + 'v1'
-  }
-});
-
-/***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -295,7 +295,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Board___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Board__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Landing__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Landing___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Landing__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(3);
 
 
 
@@ -482,7 +482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sourceOfTruth__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Page__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Page___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Page__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_lib_GenericTitle__ = __webpack_require__(14);
@@ -720,7 +720,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_infinite_loading__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_infinite_loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_infinite_loading__);
 //
@@ -796,8 +796,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_LandingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_LandingPage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_lib_GenericTitle__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_lib_GenericTitle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_lib_GenericTitle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_lib_ParallaxLayout__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_lib_ParallaxLayout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_lib_ParallaxLayout__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_lib_ParallaxLayout__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_lib_ParallaxLayout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_lib_ParallaxLayout__);
 //
 //
 //
@@ -808,6 +809,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -818,13 +831,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'landing',
   components: {
-    ParallaxLayout: __WEBPACK_IMPORTED_MODULE_3__components_lib_ParallaxLayout___default.a,
+    ParallaxLayout: __WEBPACK_IMPORTED_MODULE_4__components_lib_ParallaxLayout___default.a,
     GenericTitle: __WEBPACK_IMPORTED_MODULE_2__components_lib_GenericTitle___default.a,
     LandingPage: __WEBPACK_IMPORTED_MODULE_1__components_LandingPage___default.a
   },
   data() {
     return {
-      state: __WEBPACK_IMPORTED_MODULE_0__sourceOfTruth__["a" /* default */]
+      state: __WEBPACK_IMPORTED_MODULE_0__sourceOfTruth__["a" /* default */],
+      githubIcon: __WEBPACK_IMPORTED_MODULE_3__config__["a" /* default */].location + 'static/icons/github.svg'
     };
   }
 });
@@ -842,8 +856,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CreateModal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CreateModal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_PasswordModal__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_PasswordModal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_PasswordModal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(4);
 //
 //
 //
@@ -924,8 +938,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SettleModal__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SettleModal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SettleModal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__banners__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__util__ = __webpack_require__(13);
 //
 //
@@ -1891,7 +1905,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "body"
     },
     slot: "body"
-  }, [_vm._v("Hello Welt")])], 1)], 1)
+  }, [_c('div', {
+    attrs: {
+      "id": "about"
+    }
+  }, [_c('b', [_vm._v("iHauke")]), _vm._v(" ist das aufgehübschte Remake einer Web-App, die ich vor einigen Jahren mal an einem öden Wochenende für unsere Studenten WG geschrieben habe."), _c('br'), _vm._v(" "), _c('br'), _vm._v(" "), _c('b', [_vm._v("Lange Rede, kurzer Sinn:")]), _vm._v(" Ihr schuldet euch ständig Geld für irgendwelche Anschaffungen? Einfach schnell auf iHauke eintragen und nie wieder sinnlos Geld hin und her-überweisen 🎉\n          "), _c('br'), _vm._v(" "), _c('br')]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "https://github.com/junpls/iHauke/"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.githubIcon,
+      "alt": "GitHub",
+      "height": "42",
+      "width": "42"
+    }
+  })]), _vm._v(" "), _c('br'), _vm._v(" "), _c('br')])], 1)], 1)
 },staticRenderFns: []}
 
 /***/ }),
@@ -2459,4 +2488,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ })
 ],[40]);
-//# sourceMappingURL=app.15c1090398fc9aa39644.js.map
+//# sourceMappingURL=app.5b3dcd63e44741faa5b4.js.map
