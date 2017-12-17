@@ -10,10 +10,9 @@
             <b>Lange Rede, kurzer Sinn:</b> Ihr schuldet euch ständig Geld für irgendwelche Anschaffungen? Einfach schnell auf iHauke eintragen und nie wieder sinnlos Geld hin und her-überweisen 🎉
             <br>
             <br>
-            Übrigens, die Seite macht sich auch <a href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"><b>sehr gut als App</b></a>.
           </div>
-          <br>
           <a href="https://github.com/junpls/iHauke/"><img :src="githubIcon" alt="GitHub" height="42" width="42"></a>
+          <br>
           <br>
         </div>
     </parallax-layout>
