@@ -59,7 +59,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
       return db.migrate();
     })
     .then(() => {
-      util.info('Ready');
+      util.info(`iHauke running at http://localhost:${conf.port}`);
       app.listen(port);
     })
     .catch((err) => {
