@@ -105,7 +105,7 @@ export async function createDebt (id, user, gets, reason) {
     method: 'post',
     data: {
       user: user,
-      gets: gets,
+      gets: Math.round(gets),
       reason: reason,
       timestamp: new Date()
     },
